@@ -29,18 +29,35 @@ end
 #   n^3 + n^3 + n^2 = 0(n^3)
 
 
+# def optimized_largest_contiguous_subsum(nums)
+#   largest_sum = nil
+#   current_sum = 0
+#   subsets(nums).each do |sub|
+#     current_sum = sub.sum
+#     largest_sum = current_sum if largest_sum.nil? || current_sum > largest_sum
+#     # check subsets of length 2
+#     # if we check all numbers in the array, and we find the two largest numbers
+#     # that will be the largest sum of subsets length 2
+#   end
+#   largest_sum
+# end
+
 def optimized_largest_contiguous_subsum(nums)
   largest_sum = nil
   current_sum = 0
-  subsets(nums).each do |sub|
-    current_sum = sub.sum
+
+  nums.each do |num|
+    current_sum = 0 if current_sum < 0
+    current_sum += num
     largest_sum = current_sum if largest_sum.nil? || current_sum > largest_sum
-    # check subsets of length 2
-    # if we check all numbers in the array, and we find the two largest numbers
-    # that will be the largest sum of subsets length 2
   end
+
   largest_sum
 end
+#O(n) = n + n + n
+# [2, 3, -6, 7, -6, 7] => [[2], [3], [-6], [7], [-6], [7], [2,3], [2,3,-6], []] => 8 from [7,-6,7]
+
+#reset currentsum if currentsum < 0
 
 # until nums.empty?
   # num_check = nums.pop
@@ -115,25 +132,27 @@ end
 
 # subsets is O(n^2)
 
-p subsets([1,2,3])
-p subsets([2, 3, -6, 7, -6, 7])
+# p subsets([1,2,3])
+# p subsets([2, 3, -6, 7, -6, 7])
 
+list = [5, 3, 7]
+p optimized_largest_contiguous_subsum(list) # => 15
 
-# list = [5, 3, -7]
-# p optimized_largest_contiguous_subsum(list) # => 8
+list = [5, 3, -7]
+p optimized_largest_contiguous_subsum(list) # => 8
 
-# list = [2, 3, -6, 7, -6, 7]
-# p optimized_largest_contiguous_subsum(list) # => 8 (from [7, -6, 7])
+list = [2, 3, -6, 7, -6, 7]
+p optimized_largest_contiguous_subsum(list) # => 8 (from [7, -6, 7])
 
-# list = [-5, -1, -3]
-# p optimized_largest_contiguous_subsum(list) # => -1 (from [-1])
+list = [-5, -1, -3]
+p optimized_largest_contiguous_subsum(list) # => -1 (from [-1])
 
 # [-5], [-1], [-3], [-5,-1], [-1,-3], 
 
-# possible sub-sums
-[5]           # => 5
-[5, 3]        # => 8 --> we want this one
-[5, 3, -7]    # => 1
-[3]           # => 3
-[3, -7]       # => -4
-[-7]          # => -7
+# # possible sub-sums
+# [5]           # => 5
+# [5, 3]        # => 8 --> we want this one
+# [5, 3, -7]    # => 1
+# [3]           # => 3
+# [3, -7]       # => -4
+# [-7]          # => -7
