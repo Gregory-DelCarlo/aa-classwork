@@ -1,3 +1,4 @@
+require "byebug"
 class MaxIntSet
   attr_reader :store
   def initialize(max)
@@ -37,19 +38,30 @@ class IntSet
   end
 
   def insert(num)
-    @store[num.hash%store.length] += num
+    # @store[num % @store.length] << num
+    # return false if self[num].include?(num)
+    self[num] << num
   end
 
   def remove(num)
+    # debugger
+    self[num].delete(num)
   end
 
   def include?(num)
+    # self[num].empty? 
+    # selfself[num].empty?
+    # debugger
+    self[num].any? {|ele| ele == num}
   end
 
   private
 
   def [](num)
+    # debugger
     # optional but useful; return the bucket corresponding to `num`
+    @store[num % @store.length]
+    # num % @store.length
   end
 
   def num_buckets
