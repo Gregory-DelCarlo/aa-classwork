@@ -4,6 +4,20 @@ end
 
 class Array
   def hash
+    return 0 if self.empty?
+    keys = []
+    self.each_with_index do |ele, idx|
+      if ele.is_a?(Numeric)
+        keys << ele + idx
+      elsif ele.is_a?(String)
+        keys << ele[0].ord + idx
+      elsif ele.is_a?(Array)
+        keys << ele.length + keys.length
+      else
+        keys << idx
+      end
+    end
+    keys.map(&:hash).sum
   end
 end
 

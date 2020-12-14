@@ -82,6 +82,7 @@ class ResizingIntSet
       self[num] << num
       @count += 1
     end
+    resize! if @count == @store.length
   end
 
   def remove(num)
@@ -108,5 +109,11 @@ class ResizingIntSet
 
   def resize!
     new_arr = Array.new(num_buckets * 2) { Array.new } 
+    @store.each do |bucket|
+      bucket.each do |ele|
+        new_arr[ele % new_arr.length] << ele 
+      end
+    end
+    @store = new_arr
   end
 end
