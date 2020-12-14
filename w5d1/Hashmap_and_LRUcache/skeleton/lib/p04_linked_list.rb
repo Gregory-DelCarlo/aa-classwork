@@ -22,6 +22,7 @@ class Node
 end
 
 class LinkedList
+  include Enumerable
   def initialize
     @head = Node.new
     @tail = Node.new
@@ -46,7 +47,9 @@ class LinkedList
     @head.next == @tail && @tail.prev == @head
   end
 
+  # return value of node with key "key"
   def get(key)
+    each { |node| return node.val if node.key == key}
   end
 
   def include?(key)
@@ -62,10 +65,19 @@ class LinkedList
   end
 
   def update(key, val)
-
+    each { |node| node.val = val if node.key == key }
   end
 
   def remove(key)
+      each do |node| 
+        if node.key == key
+          prev_node = node.prev
+          next_node = node.next
+          prev_node.prev = next_node
+          next_node.next = prev_node
+          node.prev, node.next = nil, nil
+        end
+      end
   end
 
   def each
