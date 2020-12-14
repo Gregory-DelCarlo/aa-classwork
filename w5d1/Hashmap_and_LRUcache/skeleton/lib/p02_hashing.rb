@@ -23,6 +23,7 @@ end
 
 class String
   def hash
+    self.split('').hash 
   end
 end
 
@@ -30,6 +31,14 @@ class Hash
   # This returns 0 because rspec will break if it returns nil
   # Make sure to implement an actual Hash#hash method
   def hash
-    0
+    self.values.sort.hash + self.keys.sort.hash
+  #   i = 0
+  #   keys = []
+  #   while i < self.values.length
+  #     keys << [self.keys[i], self.values[i]]
+  #     i += 1
+  #   end
+
+  #   keys.map(&:hash).sum
   end
 end
