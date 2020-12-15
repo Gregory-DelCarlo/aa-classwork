@@ -1,4 +1,5 @@
 require_relative 'p04_linked_list'
+require "byebug"
 
 class HashMap
   attr_accessor :count
@@ -12,9 +13,16 @@ class HashMap
   end
 
   def set(key, val)
+    if bucket(key).include?(key)
+      bucket(key).update(key, val)
+    else
+      bucket(key).append(key,val)
+    end
   end
 
   def get(key)
+    # debugger
+    bucket(key).get(key)
   end
 
   def delete(key)
@@ -44,6 +52,7 @@ class HashMap
   end
 
   def bucket(key)
+    @store[key.hash % num_buckets]
     # optional but useful; return the bucket corresponding to `key`
   end
 end

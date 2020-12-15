@@ -1,3 +1,5 @@
+require "byebug"
+
 class Node
   attr_reader :key
   attr_accessor :val, :next, :prev
@@ -49,10 +51,13 @@ class LinkedList
 
   # return value of node with key "key"
   def get(key)
+    # debugger
     each { |node| return node.val if node.key == key}
   end
 
   def include?(key)
+    each {|node| return true if node.key == key}
+    false
   end
 
   def append(key, val)
@@ -69,15 +74,18 @@ class LinkedList
   end
 
   def remove(key)
+    outside_node = nil
       each do |node| 
         if node.key == key
+          outside_node = node
           prev_node = node.prev
           next_node = node.next
-          prev_node.prev = next_node
-          next_node.next = prev_node
-          node.prev, node.next = nil, nil
+          prev_node.next = next_node
+          next_node.prev = prev_node
+          # node.prev, node.next = nil, nil
         end
       end
+      outside_node.prev, outside_node.next = nil, nil
   end
 
   def each
@@ -89,7 +97,7 @@ class LinkedList
   end
 
   # uncomment when you have `each` working and `Enumerable` included
-  # def to_s
-  #   inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
-  # end
+  def to_s
+    inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
+  end
 end
