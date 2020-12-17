@@ -11,27 +11,29 @@ class QuestionsDataBase < SQLite3::Database
     end
 end
 
-class Question
+class Users
     def self.find_by_id(find_id)
         id = QuestionsDataBase.instance.execute(<<-SQL, find_id)
             SELECT
-                title, body, author.fname
+                fname, lname, questions.title
             FROM
-                questions
+                users
             JOIN
-                users AS author ON questions.author_id = author.id 
+                questions_follows ON users.id = questions_follows.user_id
+            JOIN
+                questions ON  questions_follows.question_id = questions.id
             WHERE
-                questions.id = ?
+                users.id = ?
         SQL
         return nil if id.empty?
         p id
-        Question.new(id[0])
+        Users.new(id[0])
     end
 
-    attr_accessor :title, :body, :author
+    attr_accessor :fname, :lname, :title
     def initialize(returned_hash)
+        @fname = returned_hash['fname']
+        @lname = returned_hash['lname']
         @title = returned_hash['title']
-        @body = returned_hash['body']
-        @author = returned_hash['fname']
     end
 end
