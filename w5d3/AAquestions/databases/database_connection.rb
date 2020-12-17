@@ -1,3 +1,5 @@
+require 'sqlite3'
+
 class QuestionsDataBase < SQLite3::Database
     include Singleton
 

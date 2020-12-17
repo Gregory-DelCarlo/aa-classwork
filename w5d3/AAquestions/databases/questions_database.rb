@@ -16,7 +16,21 @@ class Question
                 questions.id = ?
         SQL
         return nil if id.empty?
-        p id
+        Question.new(id[0])
+    end
+
+    def self.find_by_author_id(author_id)
+        id = QuestionsDataBase.instance.execute(<<-SQL, author_id)
+            SELECT
+                title, body, author.fname
+            FROM
+                questions
+            JOIN
+                users AS author ON questions.author_id = author.id
+            WHERE
+                questions.author_id = ?
+        SQL
+        return nil if id.empty?
         Question.new(id[0])
     end
 
