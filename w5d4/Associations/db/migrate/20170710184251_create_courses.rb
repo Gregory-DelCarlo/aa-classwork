@@ -8,4 +8,9 @@ class CreateCourses < ActiveRecord::Migration[5.1]
       t.timestamps
     end
   end
+
+  add_index :courses, :prereq_id, unique: true
+  add_index :courses, :instructor_id, unique: true
+
+  
 end
