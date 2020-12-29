@@ -125,23 +125,19 @@ def sparse_continents
   # Hint: Sometimes rewording the problem can help you see the solution.
   execute(<<-SQL)
     select
-      name, continent, population,
-      (
-        select
-          count(*)
-      )
+      name, continent, population
     from
       countries
     where
-    name not in (
+    continent not in (
       SELECT
-        name
+        continent
       from 
         countries
-      where
-        population <= 25000000
-      )
-    order by
-      continent;
+      where 
+        population > 25000000
+      group by
+        continent
+      );
   SQL
 end
