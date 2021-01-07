@@ -1,6 +1,8 @@
+require 'faker'
+
 FactoryBot.define do
   factory :user do
-    username{ Faker::Name::name }
+    username{ Faker::Cannabis.strain }
     password{'password'}
   end
 end
