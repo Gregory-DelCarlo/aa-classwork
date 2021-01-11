@@ -1,5 +1,5 @@
 class SubsController < ApplicationController
-
+    before_action :signed_in, only: [:edit, :update, :destroy]
 
     def index
         @subs = Sub.all
@@ -28,8 +28,13 @@ class SubsController < ApplicationController
     end
 
     def edit
-        @sub = Sub.new
-        render :edit
+        @sub = Sub.find_by(title: params[:title])
+        if current_user.id == @sub.moderator_id
+            render :edit
+        else
+            flash[:errors] = "You must be a moderator to edit a sub"
+            redirect_to sub_url(@sub)
+        end
     end
 
     def update 
@@ -44,8 +49,13 @@ class SubsController < ApplicationController
 
     def destroy
         @sub = Sub.find(params[:id])
-        @sub.destroy 
-        render json: @sub
+        if current_user.id == @sub.moderator_id
+            @sub.destroy
+            render json: @sub
+        else
+            flash[:errors] = "You can't delete this sub because you are not the moderator"
+            redirect_to sub_url(@sub)
+        end
     end
 
     private

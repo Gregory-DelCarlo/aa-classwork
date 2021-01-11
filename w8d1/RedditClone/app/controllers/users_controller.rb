@@ -29,7 +29,7 @@ class UsersController < ApplicationController
     end
 
     def edit
-        @user = User.new
+        @user = current_user
         render :edit
     end
 
