@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+    before_action :require_signed_in!, only: [:show, :destroy, :update, :edit]
+
     def index
         @users = User.all
         render :index
