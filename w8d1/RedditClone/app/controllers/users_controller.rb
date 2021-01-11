@@ -19,11 +19,11 @@ class UsersController < ApplicationController
     def create
         @user =  User.new(user_params)
 
-        if user.save!
-            sign_in(user)
-            redirect_to user_url(user)
+        if @user.save!
+            sign_in(@user)
+            redirect_to user_url(@user)
         else 
-            flash.now[:errors] = user.errors.full_messages
+            flash.now[:errors] = @user.errors.full_messages
             render :new
         end
     end
@@ -34,23 +34,23 @@ class UsersController < ApplicationController
     end
 
     def update
-        @user = user.find(params[:id])
+        @user = User.find(params[:id])
 
-        if user.update(user_params)
-            redirect_to user_url(user)
+        if @user.update(user_params)
+            redirect_to user_url(@user)
         else
             render :edit
         end
     end
 
     def destroy
-        user = user.find(params[:id])
-        user.destroy
-        render json: user
+        @user = User.find(params[:id])
+        @user.destroy
+        render json: @user
     end
 
     private
     def user_params
-        params.require(:user).only(:username, :password)
+        params.require(:user).permit(:username, :password)
     end
 end
