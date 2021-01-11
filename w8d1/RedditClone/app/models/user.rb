@@ -38,8 +38,12 @@ class User < ApplicationRecord
     end
 
 
-    #assosciations
+    # assosciations
     has_many :subs,
         foreign_key: :moderator_id,
         class_name: :Sub
+
+    has_many :posts,
+        foreign_key: :author_id,
+        class_name: :Post
 end

@@ -47,16 +47,16 @@ class SubsController < ApplicationController
         end
     end
 
-    def destroy
-        @sub = Sub.find(params[:id])
-        if current_user.id == @sub.moderator_id
-            @sub.destroy
-            render json: @sub
-        else
-            flash[:errors] = "You can't delete this sub because you are not the moderator"
-            redirect_to sub_url(@sub)
-        end
-    end
+    # def destroy
+    #     @sub = Sub.find(params[:id])
+    #     if current_user.id == @sub.moderator_id
+    #         @sub.destroy
+    #         render json: @sub
+    #     else
+    #         flash[:errors] = "You can't delete this sub because you are not the moderator"
+    #         redirect_to sub_url(@sub)
+    #     end
+    # end
 
     private
     def sub_params
