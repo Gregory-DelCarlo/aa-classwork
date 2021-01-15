@@ -75,7 +75,7 @@ Board.prototype.getPiece = function (pos) {
   } else {
     throw Error('Not valid pos!');
   }
-  
+
 };
 
 /**
@@ -116,32 +116,35 @@ Board.prototype.isOccupied = function (pos) {
  */
 // dir =~ [0,1]
 Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip){
+  
   let nextPos = [
     (pos[0] + dir[0]),
     (pos[1] + dir[1])
   ]
-  if (!this.isValidPos(pos) || !this.isValidPos(nextPos) ) {
-    return [];
-  }
-  // let piece = this.grid[pos[0]][pos[1]];
-  
-  if( nextPos === undefined) {
-    return [];
-  } else if(nextPos === color) {
+
+  if (!this.isValidPos(nextPos) ) {
     return [];
   }
 
+  let nextPiece = this.grid[nextPos[0]][nextPos[1]];
+
+  if (nextPiece === undefined) {
+    return [];
+  } else if (nextPiece.color === color) {
+    return [];
+  }
+
+  // Recursion Part
+
   if (piecesToFlip === undefined) {
-    piecesToFlip = [];
+    piecesToFlip = [nextPos];
   } else {
     piecesToFlip.push(nextPos)
   }
-    
-  // piecesToFlip.push(pos)
+
   piecesToFlip.concat(this._positionsToFlip(nextPos, color, dir, piecesToFlip))
 
   return piecesToFlip;
-
 };
 
 /**
@@ -150,7 +153,38 @@ Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip){
  * color being flipped.
  */
 Board.prototype.validMove = function (pos, color) {
-};
+
+  // 1. check whether pos is undefined of not
+  // - if it NOT undefined -> return false
+
+  // 2. loop thru each direction from pos
+  // -> call Board#_positionsToFlip on each of the 8 directions
+  // -> put results in a BIG array (it will contain subarrays)
+
+  // 3. check if any of the subarrays are NOT []
+  // -> means we have a valid move -> true
+
+  let piece = this.grid[pos[0]][pos[1]];
+
+  if ( !(piece === undefined) ) {
+    return false;
+  }
+  
+  let i = 0;
+  while (i < Board.DIRS.length) {
+
+    let possibleFlips = this._positionsToFlip(pos, color, Board.DIRS[i]);
+
+    if (possibleFlips.length > 0) {
+
+      return true;
+    }
+
+    i++;
+  }
+
+  return false;
+}
 
 /**
  * Adds a new piece of the given color to the given position, flipping the
