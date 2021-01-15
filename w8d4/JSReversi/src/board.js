@@ -122,6 +122,7 @@ Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip){
     (pos[1] + dir[1])
   ]
 
+  // Board#isValidPos checks that the position is on the board
   if (!this.isValidPos(nextPos) ) {
     return [];
   }
@@ -130,7 +131,9 @@ Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip){
 
   if (nextPiece === undefined) {
     return [];
-  } else if (nextPiece.color === color) {
+  } 
+  
+  if (nextPiece.color === color) {
     return [];
   }
 
@@ -139,11 +142,11 @@ Board.prototype._positionsToFlip = function(pos, color, dir, piecesToFlip){
   if (piecesToFlip === undefined) {
     piecesToFlip = [nextPos];
   } else {
-    piecesToFlip.push(nextPos)
+    piecesToFlip.push(nextPos);
   }
 
-  piecesToFlip.concat(this._positionsToFlip(nextPos, color, dir, piecesToFlip))
-
+  piecesToFlip.concat(this._positionsToFlip(nextPos, color, dir, piecesToFlip));
+  
   return piecesToFlip;
 };
 
@@ -169,15 +172,29 @@ Board.prototype.validMove = function (pos, color) {
   if ( !(piece === undefined) ) {
     return false;
   }
-  
+  // this is a little buggy but we need to check that the row of flips ends in a piece with the same
+  // color before returning true
   let i = 0;
   while (i < Board.DIRS.length) {
-
     let possibleFlips = this._positionsToFlip(pos, color, Board.DIRS[i]);
 
     if (possibleFlips.length > 0) {
 
-      return true;
+      let lastFlip = possibleFlips[possibleFlips.length-1]
+      let finalPos = [
+        (lastFlip[0] + Board.DIRS[i][0]),
+        (lastFlip[1] + Board.DIRS[i][1])
+      ]
+      let finalPiece = this.grid[finalPos[0]][finalPos[1]]
+
+      if (finalPiece === undefined) {
+        i++;
+        continue;
+      }
+
+      if (finalPiece.color === color){
+        return true;
+      }
     }
 
     i++;
