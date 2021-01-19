@@ -1,4 +1,32 @@
-//Greg, I did some of these earlier ones that you might find really easy, but I still need to work on them. I stopped at the myBind with calltime and bindtime args. 
+// arguments way
+// function sum(cb){
+//   let args = Array.prototype.slice.call(arguments);
+//   args.shift();
+//   let sum = args.reduce(cb);
+//   // args.forEach((arg) => {
+//   //   console.log(arg);
+//   //   sum += arg
+//   // });
+//  return sum;
+// }
+
+// reducer callback to pass to reduce method
+// let reducer = (accumulator, currentValue) => accumulator + currentValue;
+// // rest way
+// function sum(cb, operOne,...otherOpers) {
+
+//   console.log("operOne: " + operOne);
+//   otherOpers.forEach((arg) => {
+//     console.log("otherOpers: " + arg);
+//   });
+//   //add operOne to other args for addition
+//   otherOpers.unshift(operOne);
+//   //sum using callback
+//   return otherOpers.reduce(cb);
+// }
+
+// console.log(sum(reducer,1,2,3,4,5,6,7,8,9,10));
+
 
 
 // Function.prototype.myBind = function (context, ...bindArgs) {
@@ -7,6 +35,8 @@
 //     return that.apply(context, bindArgs.concat(callArgs));
 //   };
 // };
+
+
 
 
 Function.prototype.myBind = function(context) {
@@ -85,38 +115,50 @@ notMarkovSays("meow", "me");
 // Pavlov says meow to me!
 // true
 
+//the code from exercise page...
+//non-curried
+function sumThree(num1, num2, num3) {
+  return num1 + num2 + num3;
+}
+
+sumThree(4, 20, 6); // == 30
+
+// you'll write `Function#curry`!
+
+Function.prototype.myCurry = function (numArgs) {
+  let nums = [];
+  let fcn = this;
+  return function _myCurry(el) {
+    nums.push(el);
+    if (nums.length < numArgs) {
+      return _myCurry;
+    } else {
+      return fcn(...nums);
+    }
+  };
+};
+
+let f1 = sumThree.myCurry(3); // tells `f1` to wait until 3 arguments are given before running `sumThree`
+f1 = f1(4); // [Function]
+f1 = f1(20); // [Function]
+f1 = f1(6); // = 30
+console.log("f1: " + f1);
+
+function curriedSum(numArgs){
+  let nums = [];
+
+  return _curry = (ellie) => {
+    nums.push(ellie);
+    if(numArgs === nums.length){
+      return nums.reduce((a, b) => a + b, 0);  
+    }else {
+      
+      return _curry;
+    }
+  }
+}
 
 
-
-
-
-
-// arguments way 
-// function sum(cb){
-//   let args = Array.prototype.slice.call(arguments);
-//   args.shift();
-//   let sum = args.reduce(cb);
-//   // args.forEach((arg) => {
-//   //   console.log(arg);
-//   //   sum += arg
-//   // });
-//  return sum;
-// }
-
-// reducer callback to pass to reduce method
-// let reducer = (accumulator, currentValue) => accumulator + currentValue;
-// // rest way
-// function sum(cb, operOne,...otherOpers) {
-
-//   console.log("operOne: " + operOne);
-//   otherOpers.forEach((arg) => {
-//     console.log("otherOpers: " + arg);
-//   });
-//   //add operOne to other args for addition
-//   otherOpers.unshift(operOne);
-//   //sum using callback
-//   return otherOpers.reduce(cb);
-// }
-
-// console.log(sum(reducer,1,2,3,4,5,6,7,8,9,10));
+// or more briefly:
+console.log(curriedSum(3)(4)(20)(6)); // == 30
 
