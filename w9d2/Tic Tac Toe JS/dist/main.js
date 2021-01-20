@@ -45,7 +45,7 @@ eval("\nconst MoveError = function (msg) { this.msg = msg; };\n\n// MoveError re
   \*************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("const Game = __webpack_require__(/*! ../dist/game */ \"./dist/game.js\");\n\nclass View {\n  constructor(game, $el) {\n    this.game = game;\n    // $el = $(\".ttt\");\n    // $el.html(this.setupBoard());\n    // $el = this.setupBoard();\n    // debugger\n    this.$el = $($el);\n    this.$el.append(this.setupBoard());\n  }\n\n  bindEvents() {}\n\n  makeMove($square) {}\n\n  setupBoard() {\n   $(\n     () => {\n      const $newBoard = $('<ul class=\"grid\"></ul>');\n        // const $newBoard = $(\".grid\");\n      for (let i = 0; i < 9; i++) {\n        // debugger\n        $newBoard.append('<li class=\"grid-box\"></li>');\n      };\n      // debugger\n      // this.$el.append($newBoard);\n      return $newBoard;\n     });\n  }\n}\n\nmodule.exports = View;\n\n$( () =>{\n  new View(new Game(), \".ttt\");\n});\n\n//# sourceURL=webpack:///./src/ttt-view.js?");
+eval("const Game = __webpack_require__(/*! ../dist/game */ \"./dist/game.js\");\n\nclass View {\n  constructor(game, $el) {\n    this.game = game;\n    this.$el = $($el);\n    this.setupBoard();\n    this.bindEvents();\n  }\n\n  bindEvents() {\n    const $grid = $('.grid');\n    $grid.on('click', (e) => {\n      // debugger\n      let $square = $(e.target);\n      this.makeMove($square);\n    })\n  }\n\n  makeMove($square) {\n    this.game.playMove($square.data(\"pos\"));\n\n    $square.append(`${this.game.currentPlayer}`);\n    if (this.game.currentPlayer === \"x\") {\n      $square.addClass('p1');\n    } else {\n      $square.addClass('p2');\n    }\n\n     if (this.game.isOver()) {\n       const $body = $('body');\n       $body.append(`The winner is ${this.game.winner()}!`);\n     };\n  }\n\n  setupBoard() {\n      const $newBoard = $('<ul class=\"grid\"></ul>');\n      \n      for (let rowIdx = 0; rowIdx < 3; rowIdx++) {\n        for (let colIdx = 0; colIdx < 3; colIdx++) {\n          \n          const $newBox = $('<li class=\"grid-box\"></li>')\n          $newBox.data(\"pos\", [rowIdx, colIdx]);\n          $newBoard.append($newBox);\n        }\n      };\n      // need to append to $el within the method or the return breaks\n      this.$el.append($newBoard);\n  }\n}\n\nmodule.exports = View;\n\n//# sourceURL=webpack:///./src/ttt-view.js?");
 
 /***/ })
 
@@ -79,7 +79,7 @@ eval("const Game = __webpack_require__(/*! ../dist/game */ \"./dist/game.js\");\
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-eval("const View = __webpack_require__(/*! ./ttt-view.js */ \"./src/ttt-view.js\")  // require appropriate file\nconst Game = __webpack_require__(/*! ../dist/game.js */ \"./dist/game.js\")// require appropriate file\n\n  $(() => {\n    // Your code here\n  });\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("const View = __webpack_require__(/*! ./ttt-view.js */ \"./src/ttt-view.js\")  // require appropriate file\nconst Game = __webpack_require__(/*! ../dist/game.js */ \"./dist/game.js\")// require appropriate file\n\n  $(() => {\n    new View(new Game(), \".ttt\");\n  });\n\n\n//# sourceURL=webpack:///./src/index.js?");
 })();
 
 /******/ })()
