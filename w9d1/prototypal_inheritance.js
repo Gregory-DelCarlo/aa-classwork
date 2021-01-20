@@ -16,10 +16,10 @@ function Child (name){
         this.name = name;
 };
 
-function Surrogate(){};
-Surrogate.prototype = Parent.prototype;
-Child.prototype = new Surrogate();
-Child.prototype.constructor = Child;
+// function Surrogate(){};
+// Surrogate.prototype = Parent.prototype;
+// Child.prototype = new Surrogate();
+// Child.prototype.constructor = Child;
 
 
 // class Person {
@@ -35,3 +35,20 @@ Child.prototype.constructor = Child;
 // Person.prototype.sayBye = function() {
 //     console.log(`${this.name} says Bye!`);
 // };
+
+Function.prototype.inherits = function(Mom){
+  let that = this;
+
+  that.prototype = Object.create(Mom.prototype);
+  // function Surrogate(){};
+  // Surrogate.prototype = Mom.prototype;
+  // that.prototype = new Surrogate();
+  that.prototype.constructor = that;
+}
+
+Child.inherits(Parent);
+
+
+
+
+
