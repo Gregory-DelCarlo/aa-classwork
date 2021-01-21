@@ -9,14 +9,25 @@
 
 class FollowToggle {
     constructor (e) {
-        debugger
+        // debugger
         this.$e = $(e);
         this.userId = this.$e.data("user-id");
         this.followState = this.$e.data("initial-follow-state");
+        debugger
+        console.log(this.followState);
+        this.render();
     }
+
+    render() {
+        if (this.followState === false){
+            this.$e.text("Follow!");
+        }else {
+            this.$e.text("Unfollow!");
+        };
+    };
 }
 
-module.exports = FollowToggle
+module.exports = FollowToggle;
 
 /***/ })
 
@@ -52,10 +63,13 @@ module.exports = FollowToggle
   \*****************************/
 const followToggle = __webpack_require__(/*! ./follow_toggle.js */ "./frontend/follow_toggle.js");
 
-const $buttons = $(".follow-toggle");
-$buttons.each(function(ind, e) {
-    new followToggle(e);
-})
+$( () => {
+    // need to load the page before we try and pull anything from the html
+    const $buttons = $("button.follow-toggle");
+    $buttons.each(function(ind, e) {
+        let x = new followToggle(e);
+    });
+});
 
 })();
 
