@@ -1,5 +1,2 @@
 import htmlGenerator from "./warmup";
-
-const partyHeader = document.getElementById('party');
-htmlGenerator("Vannilla DOM!!", partyHeader);
-
+import * as Clock from "./clock";
