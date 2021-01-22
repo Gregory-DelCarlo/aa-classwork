@@ -9,6 +9,7 @@ export const htmlGenerator = (string, htmlElement) => {
 
     const p = document.createElement("p");
     p.textContent = string;
+    // htmlElement.innerHtml = p;
     htmlElement.appendChild(p)
 };
 
