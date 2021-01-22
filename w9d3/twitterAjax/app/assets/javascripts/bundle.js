@@ -5,27 +5,9 @@
 /*!******************************!*\
   !*** ./frontend/api_util.js ***!
   \******************************/
-/***/ ((module) => {
+/***/ (() => {
 
-const APIUtil = {
-    followUser: id => {
-        return $.ajax({
-            method: "POST",
-            url: `/users/${id}/follow`, // use string interpolation to add the userID to our path
-            dataType: "JSON"
-        });
-    },
-  
-    unfollowUser: id => {
-        return $.ajax({
-            method: "DELETE",
-            url: `/users/${id}/follow`, // use string interpolation to add the userID to our path
-            dataType: "JSON"
-        });
-    }
-  };
-  
-  module.exports = APIUtil;
+throw new Error("Module parse failed: Unexpected token (18:4)\nYou may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders\n|     }\n| \n>     searchUsers: queryVal => {\n|         return $.ajax({\n|             method: \"GET\",");
 
 /***/ }),
 
@@ -69,22 +51,18 @@ class FollowToggle {
             e.preventDefault();
             if (this.followState === "followed") {
                 this.followState = "unfollowing";
-                console.log("hit unfollow");
                 this.render();
 
                 APIUtil.unfollowUser(this.userId).then(() => {
                     this.followState = "unfollowed";
-                    console.log("currently unfollowing");
                     this.render();
                 }).fail(() => {console.log("Didn't follow/unfollow")});
             } else {
                 this.followState = "following";
-                console.log("hit follow");
                 this.render();
 
                 APIUtil.followUser(this.userId).then(() => {
                     this.followState = "followed";
-                    console.log("currently following");
                     this.render();
                 }).fail(() => {console.log("Didn't follow/unfollow")});  
             };
@@ -132,8 +110,12 @@ $( () => {
     // need to load the page before we try and pull anything from the html
     const $buttons = $("button.follow-toggle");
     $buttons.each(function(ind, e) {
-        let x = new followToggle(e);
+        new followToggle(e);
     });
+    const $users_search = $("nav.users-search");
+    $users_search.each( function(ind, e) {
+        new UsersSearch(e);
+    })
 });
 
 })();
