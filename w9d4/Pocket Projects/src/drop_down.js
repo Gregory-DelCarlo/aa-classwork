@@ -17,7 +17,7 @@ function dogLinkCreator() {
   keys.forEach( key => {
     const a = document.createElement("a");
     const li = document.createElement("li");
-  
+    
     a.innerHTML = key;
     a.href = dogs[key];
 
@@ -28,15 +28,41 @@ function dogLinkCreator() {
   });
   return ul;
 } 
+const dogLinks = dogLinkCreator();
 
 function attachDogLinks() {
-  const dogLinks = dogLinkCreator();
 
   const ul = document.querySelectorAll(".drop-down-dog-list")[0];
   dogLinks.forEach(dog => {
+    // debugger
     ul.appendChild(dog);
   });
 }
 
+function handleEnter() {
+  // previously used a passed in element, but we can just use dogLinks array 
+  // since it's always the same elements 
+  dogLinks.forEach(dog => {
+    dog.setAttribute("style", "display:block");
+  });
+};
+
+function handleLeave() {
+  dogLinks.forEach(dog => {
+    dog.setAttribute("style", "display:none");
+  });
+};
+
 attachDogLinks();
+
+// dogsList changed to dogsNav because the dog's list isn't selectable by default
+const dogsNav = document.getElementsByClassName("drop-down-dog-nav")[0];
+dogsNav.addEventListener( "mouseenter", () => {
+  handleEnter();
+});
+
+dogsNav.addEventListener( "mouseleave", () => {
+  handleLeave();
+});
+
 
