@@ -15,7 +15,7 @@
   \************************************/
 /***/ ((module) => {
 
-eval("class DOMNodeCollection {\n    //HTMLelements will be array\n    constructor (HTMLelements) {\n        this.HTMLelements = HTMLelements;\n    };\n}\n\n\nmodule.exports = DOMNodeCollection;\n\n//# sourceURL=webpack:///./src/dom_node_collection.js?");
+eval("class DOMNodeCollection {\n    //HTMLelements will be array\n    constructor (HTMLelements) {\n        this.HTMLelements = HTMLelements;\n    };\n    \n    \n    html (str) {\n        if (typeof str === \"string\") {\n            this.HTMLelements.forEach ((el) => {\n                el.innerHTML = str;\n            });\n        } else {\n            return this.HTMLelements[0].innerHTML;\n        }\n    }\n    \n    empty () {\n        this.html (\"\");\n    }\n    \n    append (arg) {\n        // let type = typeof arg;\n        if (arg instanceof DOMNodeCollection) {\n            let that = this\n            arg.HTMLelements.forEach ((el) => {\n                that.HTMLelements.forEach ((el2) => {\n                    el2.innerHTML += el.outerHTML;\n                });\n            });\n        } else if (arg instanceof HTMLElement) {\n            this.HTMLelements.forEach ((el) => {\n                el.innerHTML += arg.outerHTML;\n            });\n        } else {\n            this.HTMLelements.forEach((el) => {\n              el.innerHTML += arg;\n            });\n        }\n    }\n\n\n\n\n}\n\n\n\nmodule.exports = DOMNodeCollection;\n\n//# sourceURL=webpack:///./src/dom_node_collection.js?");
 
 /***/ }),
 
