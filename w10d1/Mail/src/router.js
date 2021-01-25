@@ -5,7 +5,7 @@ class Router {
 
     start() {
         this.render();
-        this.node.addEventListener("hashchange", () => {
+        window.addEventListener("hashchange", () => {
             this.render();
         });
     }
