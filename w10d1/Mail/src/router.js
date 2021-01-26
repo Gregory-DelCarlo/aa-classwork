@@ -11,7 +11,8 @@ class Router {
     }
 
     render() {
-        this.node.innerHtml = "";
+        // debugger
+        this.node.innerHTML = "";
         let newP = document.createElement("p");
         newP.innerHTML = this.activeRoute();
         this.node.appendChild(newP);

@@ -1,4 +1,5 @@
 import Router from "./router.js";
+import Inbox from "./Inbox.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -15,3 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const router = new Router(content);
     router.start();
 });
+
+const routes  = {
+    
+}

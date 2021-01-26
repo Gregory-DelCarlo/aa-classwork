@@ -26,7 +26,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _rou
   \***********************/
 /***/ ((module) => {
 
-eval("class Router {\n    constructor(node) {\n        this.node = node;\n    }\n\n    start() {\n        this.render();\n        window.addEventListener(\"hashchange\", () => {\n            this.render();\n        });\n    }\n\n    render() {\n        this.node.innerHtml = \"\";\n        let newP = document.createElement(\"p\");\n        newP.innerHTML = this.activeRoute();\n        this.node.appendChild(newP);\n    }\n\n    activeRoute() {\n        return window.location.hash.substr(1);\n    }\n}\n\nmodule.exports = Router;\n\n//# sourceURL=webpack://Mail/./src/router.js?");
+eval("class Router {\n    constructor(node) {\n        this.node = node;\n    }\n\n    start() {\n        this.render();\n        window.addEventListener(\"hashchange\", () => {\n            this.render();\n        });\n    }\n\n    render() {\n        // debugger\n        this.node.innerHTML = \"\";\n        let newP = document.createElement(\"p\");\n        newP.innerHTML = this.activeRoute();\n        this.node.appendChild(newP);\n    }\n\n    activeRoute() {\n        return window.location.hash.substr(1);\n    }\n}\n\nmodule.exports = Router;\n\n//# sourceURL=webpack://Mail/./src/router.js?");
 
 /***/ })
 
