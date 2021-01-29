@@ -1,17 +1,20 @@
 import {REMOVE_TODO, RECEIVE_TODO, RECEIVE_TODOS} from '../actions/todo_actions';
+
+// nextState.todos[action.todo.id] = action.todo;
+
 const initialState = {
     1: {
         id: 1,
         title: "wash car",
         body: "with soap",
         done: false
-      },
-      2: {
+    },
+    2: {
         id: 2,
         title: "wash dog",
         body: "with shampoo",
         done: true
-      }
+    }
 }
 const todosReducer = (oldState = initialState, action) => {
     Object.freeze(oldState);
@@ -20,9 +23,9 @@ const todosReducer = (oldState = initialState, action) => {
     switch (action.type) {
         case RECEIVE_TODOS:
             // const newTodos = {};
-            action.todos.forEach((todo, idx) => {
+            action.todos.forEach((todo) => {
                 // newTodos[idx] = todo;
-                nextState[idx] = todo;
+                nextState[todo.id] = todo;
             })
             // debugger
             // nextState[todos] = newTodos;
