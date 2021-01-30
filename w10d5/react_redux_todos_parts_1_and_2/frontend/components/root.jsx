@@ -3,8 +3,8 @@ import ReactDom from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './app'
 
-const Root = ({ store }) => (
-    <Provider store={store}>
+const Root = (props ) => (
+    <Provider store={props.store}>
       <App />
     </Provider>
   );
