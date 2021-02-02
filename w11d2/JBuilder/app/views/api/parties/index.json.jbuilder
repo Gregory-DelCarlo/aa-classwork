@@ -1,8 +1,14 @@
-# json.set! @parties do
-# json.parties do
-    json.array! @parties do |party|
-        json.name party.name
-        json.location party.location
-        json.guest_ids party.guest_ids
+@parties.includes(guests: [:gifts])
+
+
+json.array! @parties do |party|
+    json.name party.name
+    json.location party.location
+    json.guests do 
+        json.array! party.guests do |guest|
+                json.name guest.name
+                json.age guest.age
+                json.favorite_color guest.favorite_color
+        end
     end
-# end
+end
